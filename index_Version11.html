@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kaneki | مطور بوتات</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Cairo', Arial, sans-serif;
+      background: #101823;
+      color: #fff;
+      min-height: 100vh;
+      text-align: center;
+      direction: rtl;
+      overflow-x: hidden;
+    }
+    .video-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: -2;
+      object-fit: cover;
+      filter: brightness(0.65) blur(1px);
+      pointer-events: none;
+    }
+    .overlay {
+      position: fixed;
+      top:0; left:0; width:100vw; height:100vh;
+      background: rgba(0,0,0,0.5);
+      z-index: -1;
+    }
+    .profile-card {
+      max-width: 450px;
+      margin: 90px auto 30px;
+      background: rgba(10,14,20,0.97);
+      border-radius: 20px;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.54);
+      padding: 40px 30px;
+      position: relative;
+    }
+    .profile-img {
+      width: 130px;
+      height: 130px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 4px solid #00ff9c;
+      margin-bottom: 18px;
+      box-shadow: 0 0 20px #00ff9c70;
+      background: #101823;
+    }
+    h1 {
+      font-size: 2.3em;
+      color: #00ff9c;
+      margin-bottom: 14px;
+      text-shadow: 0 0 15px #00ff9c70;
+      font-family: 'Cairo', Arial, sans-serif;
+      letter-spacing: 2px;
+      direction: ltr;
+    }
+    h2 {
+      font-size: 1.2em;
+      color: #fa2742;
+      margin-bottom: 16px;
+      font-weight: 900;
+      letter-spacing: 1.5px;
+      text-shadow: 0 0 10px #fa274249;
+    }
+    .desc {
+      margin-bottom: 28px;
+      font-size: 1.1em;
+      color: #eee;
+      line-height: 1.7;
+    }
+    .section-title {
+      color: #00ffd0;
+      font-weight: bold;
+      margin: 25px 0 16px;
+      letter-spacing: 1px;
+      font-size: 1.15em;
+      border-bottom: 1.7px dashed #00ffd0;
+      display:inline-block;
+      padding-bottom:3px;
+    }
+    .skills, .projects, .social {
+      margin-bottom: 22px;
+    }
+    .skills-list, .projects-list {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 10px 0;
+    }
+    .skills-list li {
+      display: inline-block;
+      margin: 5px 7px;
+      background: #122651;
+      color: #00ffc9;
+      padding: 6px 15px;
+      border-radius: 6px;
+      font-size: 0.97em;
+      letter-spacing: 1.1px;
+    }
+    .projects-list li {
+      margin: 8px 0;
+    }
+    .projects-list a {
+      color: #00ffd0;
+      font-weight: bold;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .projects-list a:hover {
+      color: #fa2742;
+      text-decoration: underline;
+    }
+    .social a {
+      display: inline-block;
+      margin: 0 7px 7px 7px;
+      color: #fff;
+      border: 1px solid #00ff9c;
+      background: #23324fdd;
+      border-radius: 8px;
+      padding: 8px 22px;
+      font-size: 1em;
+      text-decoration: none;
+      transition: 0.2s;
+    }
+    .social a:hover {
+      background: #00ff9c;
+      color: #282b38;
+    }
+    .note {
+      margin-top: 23px;
+      color: #888;
+      font-size: 0.97em;
+      letter-spacing: 1px;
+    }
+    .number {
+      margin: 4px 0 17px 0;
+      color: #00ff9c;
+      font-weight: bold;
+      font-size: 1.06em;
+      letter-spacing: 2px;
+    }
+    /* زر التشغيل */
+    #playVideoBtn {
+      display: block;
+      position: fixed;
+      top: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 50;
+      background: #00ff9c;
+      color: #1a1a2e;
+      border: none;
+      border-radius: 12px;
+      padding: 15px 40px;
+      font-size: 1.15em;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 6px 15px #00ff9c56;
+      transition: background 0.15s, color 0.15s;
+    }
+    #playVideoBtn:hover {
+      background: #1a1a2e;
+      color: #00ff9c;
+    }
+    #playVideoBtn.hide {
+      display: none;
+    }
+  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;900&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  <!-- زر تشغيل الفيديو بالصوت -->
+  <button id="playVideoBtn">تشغيل موسيقى الخلفية 🎵</button>
+
+  <!-- ===== فيديو الخلفية بالصوت ===== -->
+  <video class="video-bg" loop playsinline id="bgvideo">
+      <source src="https://storage.googleapis.com/maestro-218920-compressed-video/fBMNG5lXF5gvCc30Hsosg2GUSAs1/G_JfBA_08SyqNk_j-6Ofu.mp4?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=maestro-218920%40appspot.gserviceaccount.com%2F20260313%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20260313T071510Z&X-Goog-Expires=10800&X-Goog-SignedHeaders=host&X-Goog-Signature=193dcc235fc30675674d8b1140f2b8c290608f414258cdd35c2fdb64144973b954f222a993a106d92c881c19c32646ae7fbb5e8841f01f213643af4aed6898ffb6d16c9f2037487b9ad98ee2200d0816c47cb7f10d681b44f84d6836e12da1730d73d83c950e0670851ace18d33eca9e36dee2ebe003d062c6913e5978e1be369fca9c95a3dd696c014acffda3b3adb3f746c358a6ea7bf7fea9feae3de3c7a0ba29bf0803e5249bcf67186699f3a5265f7a6d2dc4c5478a1cd35884c1a34e9a1979cbbaefdd1a0cd02dacc61a62b377a228be43251096d1aa72bef83cfb848a6bbe642f69a3cd97dccae3edbbc8ea91472798554490e844831ee22fd1f3f558" type="video/mp4">
+  </video>
+  <div class="overlay"></div>
+
+  <div class="profile-card">
+    <img class="profile-img" src="https://i.imgur.com/vUMM6yC.png" alt="Kaneki" />
+    <h1>Kaneki</h1>
+    <h2>مطور بوتات</h2>
+    <div class="desc">
+      أهلاً وسهلاً في صفحتي الشخصية.<br>
+      أهوى تطوير البوتات وتقديم حلول برمجية جديدة وذكية.<br>
+      هنا أشارك أحدث مشاريعي وقنوات التواصل معي.<br>
+      <span style="color:#fa2742;">(يمكنني تخصيص الصفحة أكثر عند إرسال المزيد من التفاصيل!)</span>
+    </div>
+    <div class="number">+20 10 19492483</div>
+    <div class="skills">
+      <div class="section-title">المهارات</div>
+      <ul class="skills-list">
+        <li>برمجة البوتات</li>
+        <li>Javascript</li>
+        <li>Node.js</li>
+        <li>(يمكنك إضافة المزيد...)</li>
+      </ul>
+    </div>
+    <div class="projects">
+      <div class="section-title">أهم ا��مشاريع</div>
+      <ul class="projects-list">
+        <li><a href="#">اسم مشروعك الأول</a> – وصف قصير للمشروع</li>
+        <li><a href="#">اسم مشروعك الثاني</a></li>
+      </ul>
+    </div>
+    <div class="social">
+      <div class="section-title">تواصل معي</div>
+      <a href="https://wa.me/201019492483" target="_blank">واتساب</a>
+      <a href="https://whatsapp.com/channel/0029Vb7ifFdEVccC3XaA4w2e" target="_blank">قناة واتساب</a>
+      <a href="https://chat.whatsapp.com/GjHlRKYIrjM5ljjJdxPIXl?mode=hqctcla" target="_blank">جروب واتساب</a>
+      <a href="mailto:your@email.com" target="_blank">إيميل</a>
+      <a href="https://github.com/sydy22282-hue" target="_blank">جيت هب</a>
+    </div>
+    <div class="note">
+      🚀 لديك فكرة أو مشروع بوت جديد؟ لا تتردد بالتواصل معي!
+    </div>
+  </div>
+
+  <script>
+    const playBtn = document.getElementById('playVideoBtn');
+    const bgvideo = document.getElementById('bgvideo');
+
+    // عند الضغط شغل الفيديو بالصوت وأخفي الزر
+    playBtn.addEventListener('click', function() {
+      bgvideo.muted = false;   // يقيناً تأكد أن الصوت مفعّل
+      bgvideo.volume = 0.8;
+      bgvideo.play();
+      playBtn.classList.add('hide');
+    });
+
+    // مبدئيا: شغّل الفيديو بكتم حتى يضغط المستخدم
+    window.addEventListener('DOMContentLoaded', function() {
+      bgvideo.muted = true;
+      bgvideo.play().catch(()=>{});
+    });
+  </script>
+</body>
+</html>
